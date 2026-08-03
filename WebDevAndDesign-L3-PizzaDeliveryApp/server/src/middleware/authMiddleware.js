@@ -22,7 +22,13 @@ const protect = async (req, res, next) => {
         next();
     }
     catch(err){
-        return res.status(401).json({message: 'Not authorized, token invalid'});
+        if(err.name === 'TokenExpiredError'){
+            return res.status(401).json({message: 'Token expired, please log in again'});
+        }
+        if (err.name === 'JsonWebTokenError'){
+            return res.status(401).json({message: 'Invalid Token'});
+        }
+        return res.status(401).json({message: 'Not authoried'});
     }
 };
 
@@ -31,7 +37,7 @@ const adminOnly = (req, res, next) => {
         next();
     }
     else{
-        res.status(403).json({messgae: 'Admin access required'})
+        res.status(403).json({message: 'Admin access required'})
     }
 };
 
