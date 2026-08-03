@@ -37,8 +37,8 @@ const register = async (req, res) => {
         subject: 'Verify your email - Pizza App',
         html: `
          <h2>Welcome to Pizza App, ${user.name}! </h2>
-         <p>Please verify your email by clicking he link below: </p>
-         <a href = "${verifyUrl}" Verify Email </a>
+         <p>Please verify your email by clicking the link below: </p>
+         <a href = "${verifyUrl}" target="_blank">Verify Email</a>
          <p>This Link expires in 24 hours.</p>
          `
     });
@@ -109,4 +109,4 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = {register, login};
+module.exports = {register, login, verifyEmail};
