@@ -4,7 +4,7 @@ const orderSchema = new mongoose.Schema(
     {
         user: {
             type: mongoose.Schema.Types.ObjectId,
-            ref = 'User',
+            ref: 'User',
             required: true
         },
         orderType: {
@@ -50,8 +50,8 @@ const orderSchema = new mongoose.Schema(
         },
         orderStatus: {
             type: String,
-            enum: ['recieved', 'in_kitchen', 'sent_to_delivery'],
-            default: 'recieved'
+            enum: ['received', 'in_kitchen', 'sent_to_delivery'],
+            default: 'received'
         },
     },
     {timestamps: true}
@@ -59,8 +59,8 @@ const orderSchema = new mongoose.Schema(
 
 
 orderSchema.pre('validate', function (next){
-    if(this.orderType === 'predefined' && !this.menupizza){
-        return next(new Error('menuPizza is required for predifined orders'));
+    if(this.orderType === 'predefined' && !this.menuPizza){
+        return next(new Error('menuPizza is required for predefined orders'));
     }
     if (this.orderType === 'custom' && !this.customBuild?.base){
         return next(new Error('customBuild is required for custom orders'));
