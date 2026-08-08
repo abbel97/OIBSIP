@@ -1,6 +1,3 @@
-//is there any issue with this code??
-
-
 const Order = require('../models/Order');
 const MenuPizza = require('../models/MenuPizza');
 const Inventory = require('../models/Inventory');
