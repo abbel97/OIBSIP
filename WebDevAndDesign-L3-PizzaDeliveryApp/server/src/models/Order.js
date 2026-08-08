@@ -58,14 +58,14 @@ const orderSchema = new mongoose.Schema(
 )
 
 
-orderSchema.pre('validate', function (next){
+orderSchema.pre('validate', function () {
     if(this.orderType === 'predefined' && !this.menuPizza){
-        return next(new Error('menuPizza is required for predefined orders'));
+        throw new Error('menuPizza is required for predefined orders');
     }
-    if (this.orderType === 'custom' && !this.customBuild?.base){
-        return next(new Error('customBuild is required for custom orders'));
+
+    if(this.orderType === 'custom' && !this.customBuild?.base){
+        throw new Error('customBuild is required for custom orders');
     }
-    next()
-})
+});
 
 module.exports = mongoose.model('Order', orderSchema)
