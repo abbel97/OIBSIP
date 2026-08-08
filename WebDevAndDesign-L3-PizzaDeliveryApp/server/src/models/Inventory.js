@@ -28,6 +28,10 @@ const inventorySchema = new mongoose.Schema(
             required: true,
             default: 20
         },
+        lowStockNotified: {
+            type: Boolean, 
+            default: false
+        }
     },
     {timestamps: true}
 )

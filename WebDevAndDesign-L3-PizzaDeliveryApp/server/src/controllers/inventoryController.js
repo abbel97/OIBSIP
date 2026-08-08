@@ -1,4 +1,5 @@
 const Inventory = require('../models/Inventory');
+const checkLowStock = require('../jobs/lowStockCheck');
 
 const getInventory = async(req, res) => {
     try{
@@ -40,6 +41,10 @@ const updateStock = async(req, res) => {
     if (lowStockThreshold != undefined) item.lowStockThreshold = lowStockThreshold;
     if (unitPrice != undefined) item.unitPrice = unitPrice;
 
+    if(item.stock > item.lowStockThreshold){
+        item.lowStockNotified = false;
+    }
+
     await item.save();
     res.json(item);
   }
@@ -48,4 +53,14 @@ const updateStock = async(req, res) => {
   }
 };
 
-module.exports = {getInventory, getInventoryOptions, updateStock}
+const triggerLowStockCheck = async (req, res) => {
+  try {
+    const result = await checkLowStock();
+    res.json(result);
+  } 
+  catch (err) {
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
+};
+
+module.exports = {getInventory, getInventoryOptions, updateStock, triggerLowStockCheck}
